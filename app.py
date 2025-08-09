@@ -100,7 +100,9 @@ def load_model_and_artifacts():
     This function is executed when the FastAPI application starts.
     """
     global model, scaler, model_features, model_mae
-    model_uri = f"models:/{MODEL_NAME}@{MODEL_STAGE}"
+
+
+    model_version_details = client.get_model_version_by_alias(MODEL_NAME, MODEL_STAGE)
     model_source_uri = model_version_details.source.split('models:/')[1]
     model_path = f's3://mlflow/1/models/{model_source_uri}/artifacts'
     logging.info(f"Attempting to load model and artifacts from URI: {model_path}")
